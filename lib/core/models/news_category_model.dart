@@ -2,52 +2,52 @@ import 'package:flutter/material.dart';
 
 import '../sources/assets_manager.dart';
 
-class NewsCategory {
-  const NewsCategory({
+class NewsCategoryModel {
+  const NewsCategoryModel({
     required this.title,
     required this.imageAsset,
-    required this.icon,
+    required this.id,
   });
 
   final String title;
   final String imageAsset;
-  final IconData icon;
+  final String id;
 
-  static const items = <NewsCategory>[
-    NewsCategory(
+  static const news = <NewsCategoryModel>[
+    NewsCategoryModel(
       title: 'General',
       imageAsset: AssetsManager.generalCategory,
-      icon: Icons.public,
+      id: "",
     ),
-    NewsCategory(
+    NewsCategoryModel(
       title: 'Business',
       imageAsset: AssetsManager.businessCategory,
-      icon: Icons.business_center_outlined,
+      id: "",
     ),
-    NewsCategory(
+    NewsCategoryModel(
       title: 'Sports',
       imageAsset: AssetsManager.sportsCategory,
-      icon: Icons.sports_basketball_outlined,
+      id: "",
     ),
-    NewsCategory(
+    NewsCategoryModel(
       title: 'Technology',
       imageAsset: AssetsManager.technologyCategory,
-      icon: Icons.memory_outlined,
+      id: "",
     ),
-    NewsCategory(
+    NewsCategoryModel(
       title: 'Entertainment',
       imageAsset: AssetsManager.entertainmentCategory,
-      icon: Icons.movie_outlined,
+      id: "",
     ),
-    NewsCategory(
+    NewsCategoryModel(
       title: 'Health',
       imageAsset: AssetsManager.healthCategory,
-      icon: Icons.health_and_safety_outlined,
+      id: "",
     ),
-    NewsCategory(
+    NewsCategoryModel(
       title: 'Science',
       imageAsset: AssetsManager.scienceCategory,
-      icon: Icons.science_outlined,
+      id: "",
     ),
   ];
 }

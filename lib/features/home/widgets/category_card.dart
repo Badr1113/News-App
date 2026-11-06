@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/core/models/news_category.dart';
+import 'package:news_app/core/models/news_category_model.dart';
 
-import '../sources/colors_manager.dart';
-
+import '../../../core/sources/colors_manager.dart';
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard({super.key, required this.category, required this.onTap});
 
-  final NewsCategory category;
+  final NewsCategoryModel category;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).brightness == Brightness.dark
-          ? ColorsManager.categoryCard
-          : Colors.white,
+      color: ColorsManager.white,
       borderRadius: BorderRadius.circular(15),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -27,18 +24,7 @@ class CategoryCard extends StatelessWidget {
               SizedBox(
                 width: 112,
                 height: double.infinity,
-                child: Image.asset(
-                  category.imageAsset,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => ColoredBox(
-                    color: ColorsManager.placeholder,
-                    child: Icon(
-                      category.icon,
-                      color: Colors.grey,
-                      size: 38,
-                    ),
-                  ),
-                ),
+                child: Image.asset(category.imageAsset, fit: BoxFit.fill),
               ),
               Expanded(
                 child: Padding(
@@ -49,7 +35,7 @@ class CategoryCard extends StatelessWidget {
                       Text(
                         category.title,
                         style: const TextStyle(
-                          color: ColorsManager.primaryText,
+                          color: ColorsManager.black,
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
@@ -63,13 +49,13 @@ class CategoryCard extends StatelessWidget {
                             vertical: 7,
                           ),
                           decoration: BoxDecoration(
-                            color: ColorsManager.accent,
+                            color: ColorsManager.grey,
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: const Text(
                             'View All',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: ColorsManager.black,
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
                             ),
