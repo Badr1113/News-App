@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/provider/home_provider.dart';
 import 'package:news_app/core/sources/colors_manager.dart';
 import 'package:news_app/features/home/widgets/home_drawer.dart';
 import 'package:news_app/features/home/widgets/sources_view/sources_view.dart';
-
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,11 +14,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    HomeProvider homeProvider = context.watch<HomeProvider>();
     return Scaffold(
       backgroundColor: ColorsManager.black,
       appBar: _appBar(),
       drawer: HomeDrawer(),
-      body: SourcesView(),
+      body: homeProvider.selectedWidget,
     );
   }
 
