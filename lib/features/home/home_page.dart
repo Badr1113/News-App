@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:news_app/core/provider/home_provider.dart';
 import 'package:news_app/core/sources/colors_manager.dart';
 import 'package:news_app/features/home/widgets/home_drawer.dart';
-import 'package:news_app/features/home/widgets/sources_view/sources_view.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,21 +12,26 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     HomeProvider homeProvider = context.watch<HomeProvider>();
     return Scaffold(
       backgroundColor: ColorsManager.black,
-      appBar: _appBar(),
+      appBar: _appBar(homeProvider),
       drawer: HomeDrawer(),
       body: homeProvider.selectedWidget,
     );
   }
 
-  AppBar _appBar() {
+  AppBar _appBar(HomeProvider homeProvider) {
     return AppBar(
       backgroundColor: ColorsManager.black,
       title: Text(
-        "Home",
+        homeProvider.title,
         style: TextStyle(
           color: ColorsManager.white,
           fontWeight: FontWeight.w500,

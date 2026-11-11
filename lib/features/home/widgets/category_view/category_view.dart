@@ -6,8 +6,7 @@ import 'package:news_app/features/home/widgets/category_card.dart';
 import 'package:provider/provider.dart';
 
 class CategoryView extends StatelessWidget {
-  const new({super.key});
-
+  CategoryView({super.key});
   @override
   Widget build(BuildContext context) {
     HomeProvider homeProvider = context.read<HomeProvider>();
@@ -43,6 +42,7 @@ class CategoryView extends StatelessWidget {
               itemCount: NewsCategoryModel.news.length,
               itemBuilder: (context, index) => InkWell(
                 onTap: () {
+                  homeProvider.selectedCategory = NewsCategoryModel.news[index];
                   homeProvider.goToSources();
                 },
                 child: CategoryCard(category: NewsCategoryModel.news[index]),
