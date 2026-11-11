@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/core/api_services/api_services.dart';
 import 'package:news_app/core/models/articles_model.dart';
 import 'package:news_app/core/models/news_category_model.dart';
-import 'package:news_app/core/models/source_responce/source.dart';
+import 'package:news_app/core/models/source_response/source.dart';
 import 'package:news_app/core/sources/colors_manager.dart';
 import 'package:news_app/features/home/widgets/sources_view/widgets/articles_item.dart';
 
@@ -18,13 +18,11 @@ class SourcesView extends StatelessWidget {
           return LinearProgressIndicator();
         }
         if (snapshot.hasError) {
-          print("==========================\n${snapshot.error}");
           return Center(
             child: Text("Error", style: TextStyle(color: Colors.white)),
           );
         }
         List<Source> sources = snapshot.data?.sources ?? [];
-        print("==========================\n${sources.length}");
         return Column(
           children: [
             DefaultTabController(
