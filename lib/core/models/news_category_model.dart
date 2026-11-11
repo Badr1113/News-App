@@ -17,37 +17,37 @@ class NewsCategoryModel {
     NewsCategoryModel(
       title: 'General',
       imageAsset: AssetsManager.generalCategory,
-      id: "",
+      id: "general",
     ),
     NewsCategoryModel(
       title: 'Business',
       imageAsset: AssetsManager.businessCategory,
-      id: "",
+      id: "business",
     ),
     NewsCategoryModel(
       title: 'Sports',
       imageAsset: AssetsManager.sportsCategory,
-      id: "",
+      id: "sports",
     ),
     NewsCategoryModel(
       title: 'Technology',
       imageAsset: AssetsManager.technologyCategory,
-      id: "",
+      id: "technology",
     ),
     NewsCategoryModel(
       title: 'Entertainment',
       imageAsset: AssetsManager.entertainmentCategory,
-      id: "",
+      id: "entertainment",
     ),
     NewsCategoryModel(
       title: 'Health',
       imageAsset: AssetsManager.healthCategory,
-      id: "",
+      id: "health",
     ),
     NewsCategoryModel(
       title: 'Science',
       imageAsset: AssetsManager.scienceCategory,
-      id: "",
+      id: "science",
     ),
   ];
 }

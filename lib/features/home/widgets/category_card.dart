@@ -4,7 +4,7 @@ import 'package:news_app/core/models/news_category_model.dart';
 import '../../../core/sources/colors_manager.dart';
 
 class CategoryCard extends StatelessWidget {
-  const CategoryCard({super.key, required this.category,});
+  const CategoryCard({super.key, required this.category});
 
   final NewsCategoryModel category;
 

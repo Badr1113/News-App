@@ -21,7 +21,7 @@ class HomeProvider extends ChangeNotifier {
 
   // goToSources
   void goToSources() {
-    selectedWidget = SourcesView();
+    selectedWidget = SourcesView(category: selectedCategory!);
     title = selectedCategory!.title;
     notifyListeners();
   }
