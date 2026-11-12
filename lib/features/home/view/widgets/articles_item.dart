@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/core/models/articles_model.dart';
+import 'package:news_app/core/models/articles_response/article.dart';
 import 'package:news_app/core/sources/colors_manager.dart';
 
 class ArticleItem extends StatelessWidget {
   ArticleItem({required this.article});
-  ArticlesModel article;
+  Article article;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,10 +17,10 @@ class ArticleItem extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
-            child: Image.asset(article.imageUrl),
+            child: Image.asset(article.urlToImage!),
           ),
           Text(
-            article.title,
+            article.title!,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -40,7 +40,7 @@ class ArticleItem extends StatelessWidget {
               ),
               Spacer(),
               Text(
-                article.date,
+                article.publishedAt!,
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,

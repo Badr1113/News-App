@@ -3,7 +3,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:news_app/core/models/articles_responce/articles_response.dart';
+import 'package:news_app/core/models/articles_response/articles_response.dart';
 import 'package:news_app/core/models/news_category_model.dart';
 import 'package:news_app/core/models/source_response/source.dart';
 import 'package:news_app/core/models/source_response/source_response.dart';

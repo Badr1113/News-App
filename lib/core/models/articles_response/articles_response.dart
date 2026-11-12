@@ -1,13 +1,13 @@
 import 'article.dart';
 
-class ArticlesResponce {
+class ArticlesResponse {
   String? status;
   int? totalResults;
   List<Article>? articles;
 
-  ArticlesResponce({this.status, this.totalResults, this.articles});
+  ArticlesResponse({this.status, this.totalResults, this.articles});
 
-  ArticlesResponce.fromJson(Map<String, dynamic> data) {
+  ArticlesResponse.fromJson(Map<String, dynamic> data) {
     status = data['status'];
     totalResults = data['totalResults'];
     articles = (data['articles'] as List<dynamic>?)

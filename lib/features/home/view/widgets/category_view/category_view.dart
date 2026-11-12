@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/core/models/news_category_model.dart';
 import 'package:news_app/core/provider/home_provider.dart';
 import 'package:news_app/core/sources/colors_manager.dart';
-import 'package:news_app/features/home/widgets/category_card.dart';
+import 'package:news_app/features/home/view/widgets/category_card.dart';
 import 'package:provider/provider.dart';
 
 class CategoryView extends StatelessWidget {

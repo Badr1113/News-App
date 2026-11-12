@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/api_services/api_services.dart';
-import 'package:news_app/core/models/articles_model.dart';
 import 'package:news_app/core/models/news_category_model.dart';
 import 'package:news_app/core/models/source_response/source.dart';
 import 'package:news_app/core/sources/colors_manager.dart';
-import 'package:news_app/features/home/widgets/sources_view/widgets/articles_item.dart';
+import 'package:news_app/features/home/view/widgets/articles_item.dart';
 
 class SourcesView extends StatelessWidget {
   SourcesView({super.key, required this.category});
@@ -37,17 +36,17 @@ class SourcesView extends StatelessWidget {
                 tabs: sources.map((source) => Tab(text: source.name)).toList(),
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 16, right: 16, left: 16),
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return ArticleItem(article: ArticlesModel.articles[index]);
-                  },
-                  itemCount: ArticlesModel.articles.length,
-                ),
-              ),
-            ),
+            // Expanded(
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(top: 16, right: 16, left: 16),
+            //     child: ListView.builder(
+            //       itemBuilder: (context, index) {
+            //         return ArticleItem(article: ArticlesModel.articles[index]);
+            //       },
+            //       itemCount: ArticlesModel.articles.length,
+            //     ),
+            //   ),
+            // ),
           ],
         );
       },
