@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/core/models/articles_response/article.dart';
 import 'package:news_app/core/sources/colors_manager.dart';
@@ -17,10 +18,14 @@ class ArticleItem extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
-            child: Image.asset(article.urlToImage!),
+            child: CachedNetworkImage(
+              imageUrl: article.urlToImage ?? "",
+              placeholder: (_, _) => LinearProgressIndicator(),
+              errorWidget: (_, _, _) => Icon(Icons.broken_image_rounded),
+            ),
           ),
           Text(
-            article.title!,
+            article.title ?? "",
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -30,21 +35,27 @@ class ArticleItem extends StatelessWidget {
           SizedBox(height: 10),
           Row(
             children: [
-              Text(
-                "by : ${article.author}",
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: ColorsManager.grey,
+              Expanded(
+                flex: 80,
+                child: Text(
+                  "by : ${article.author}",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: ColorsManager.grey,
+                  ),
                 ),
               ),
               Spacer(),
-              Text(
-                article.publishedAt!,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: ColorsManager.grey,
+              Expanded(
+                flex: 20,
+                child: Text(
+                  article.publishedAt ?? "",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: ColorsManager.grey,
+                  ),
                 ),
               ),
             ],

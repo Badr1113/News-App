@@ -2,6 +2,8 @@ import 'source.dart';
 
 class SourceResponse {
   String? status;
+  String? code;
+  String? message;
   List<Source>? sources;
 
   SourceResponse({this.status, this.sources});
