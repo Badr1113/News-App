@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/core/api_services/api_services.dart';
-import 'package:news_app/core/models/articles_response/article.dart';
 import 'package:news_app/core/models/news_category_model.dart';
-import 'package:news_app/core/models/source_response/source.dart';
 import 'package:news_app/core/sources/colors_manager.dart';
 import 'package:news_app/features/home/view/widgets/articles_item.dart';
 import 'package:news_app/features/home/view_model/articles_view_model.dart';
@@ -22,7 +19,9 @@ class _SourcesViewState extends State<SourcesView> {
   late ArticlesViewModel articlesViewModel;
   void fetchData() async {
     await sourcesViewModel.loadSources(widget.category);
-    articlesViewModel.loadArticles(sourcesViewModel.sources[0]);
+    articlesViewModel.loadArticles(
+      (sourcesViewModel.state as SourcesSuccessState).sources[0],
+    );
   }
 
   @override
@@ -45,56 +44,68 @@ class _SourcesViewState extends State<SourcesView> {
         children: [
           Consumer<SourcesViewModel>(
             builder: (context, viewModel, _) {
-              if (viewModel.isLoading) {
-                return LinearProgressIndicator();
+              SourcesState state = viewModel.state;
+              switch (state) {
+                case SourcesLoadingState():
+                  return LinearProgressIndicator();
+                case SourcesErrorState():
+                  return Text(
+                    state.message ?? "",
+                    style: TextStyle(color: ColorsManager.white),
+                  );
+                case SourcesSuccessState():
+                  return DefaultTabController(
+                    length: state.sources.length,
+                    child: TabBar(
+                      onTap: (tabIndex) {
+                        articlesViewModel.loadArticles(state.sources[tabIndex]);
+                      },
+                      labelStyle: TextStyle(color: ColorsManager.white),
+                      indicatorColor: ColorsManager.white,
+                      dividerColor: Colors.transparent,
+                      unselectedLabelColor: Colors.white,
+                      tabAlignment: TabAlignment.start,
+                      isScrollable: true,
+                      tabs: state.sources
+                          .map((source) => Tab(text: source.name))
+                          .toList(),
+                    ),
+                  );
+                case SourceInitialState():
+                 return Container();
               }
-              if (viewModel.errorMessage.isNotEmpty) {
-                return Text(
-                  "Error",
-                  style: TextStyle(color: ColorsManager.white),
-                );
-              }
-              return DefaultTabController(
-                length: viewModel.sources.length,
-                child: TabBar(
-                  onTap: (tabIndex) {
-                    articlesViewModel.loadArticles(viewModel.sources[tabIndex]);
-                  },
-                  labelStyle: TextStyle(color: ColorsManager.white),
-                  indicatorColor: ColorsManager.white,
-                  dividerColor: Colors.transparent,
-                  unselectedLabelColor: Colors.white,
-                  tabAlignment: TabAlignment.start,
-                  isScrollable: true,
-                  tabs: viewModel.sources
-                      .map((source) => Tab(text: source.name))
-                      .toList(),
-                ),
-              );
             },
           ),
           Consumer<ArticlesViewModel>(
             builder: (context, viewModel, _) {
-              if (viewModel.isLoading) {
-                return LinearProgressIndicator();
+              ArticleState state = viewModel.state;
+              switch (state) {
+                case ArticleLoadingState():
+                  return LinearProgressIndicator();
+                case ArticleErrorState():
+                  return Text(
+                    state.message ?? "",
+                    style: TextStyle(color: ColorsManager.white),
+                  );
+                case ArticleSuccessState():
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 16,
+                        right: 16,
+                        left: 16,
+                      ),
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return ArticleItem(article: state.articles[index]);
+                        },
+                        itemCount: state.articles.length,
+                      ),
+                    ),
+                  );
+                case ArticleInitialState():
+                  return Container();
               }
-              if (viewModel.errorMessage.isNotEmpty) {
-                return Text(
-                  "Error",
-                  style: TextStyle(color: ColorsManager.white),
-                );
-              }
-              return Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 16, right: 16, left: 16),
-                  child: ListView.builder(
-                    itemBuilder: (context, index) {
-                      return ArticleItem(article: viewModel.articles[index]);
-                    },
-                    itemCount: viewModel.articles.length,
-                  ),
-                ),
-              );
             },
           ),
         ],

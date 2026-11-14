@@ -6,21 +6,35 @@ import 'package:news_app/core/models/source_response/source.dart';
 
 class ArticlesViewModel extends ChangeNotifier {
   // observable
-  List<Article> articles = [];
-  bool isLoading = false;
-  String errorMessage = "";
+
+  ArticleState state = ArticleInitialState();
 
   void loadArticles(Source source) async {
-    isLoading = true;
+    state = ArticleLoadingState();
     notifyListeners();
     ArticlesResponse articlesResponse = await ApiServices.getArticles(source);
-    isLoading = false;
-    notifyListeners();
+
     if (articlesResponse.status == "error") {
-      errorMessage = articlesResponse.message!;
+      state = ArticleErrorState(message: articlesResponse.message);
     } else {
-      articles = articlesResponse.articles ?? [];
+      state = ArticleSuccessState(articles: articlesResponse.articles ?? []);
     }
     notifyListeners();
   }
 }
+
+sealed class ArticleState {}
+
+class ArticleInitialState extends ArticleState {}
+
+class ArticleSuccessState extends ArticleState {
+  List<Article> articles = [];
+  ArticleSuccessState({required this.articles});
+}
+
+class ArticleErrorState extends ArticleState {
+  String? message;
+  ArticleErrorState({this.message});
+}
+
+class ArticleLoadingState extends ArticleState {}

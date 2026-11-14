@@ -6,21 +6,40 @@ import 'package:news_app/core/models/source_response/source_response.dart';
 
 class SourcesViewModel extends ChangeNotifier {
   // observable
-  List<Source> sources = [];
-  bool isLoading = false;
-  String errorMessage = "";
+
+  SourcesState state = SourceInitialState();
 
   Future<void> loadSources(NewsCategoryModel category) async {
-    isLoading = true;
+    state = SourcesLoadingState();
     notifyListeners();
     SourceResponse sourceResponse = await ApiServices.getSources(category);
-    isLoading = false;
-    notifyListeners();
     if (sourceResponse.status == "error") {
-      errorMessage = sourceResponse.message!;
+      state = SourcesErrorState(message: sourceResponse.message);
     } else {
-      sources = sourceResponse.sources ?? [];
+      state = SourcesSuccessState(sources: sourceResponse.sources ?? []);
     }
     notifyListeners();
   }
+}
+
+sealed class SourcesState {
+  const SourcesState();
+}
+
+class SourceInitialState extends SourcesState {
+  const SourceInitialState();
+}
+
+class SourcesLoadingState extends SourcesState {
+  const SourcesLoadingState();
+}
+
+class SourcesErrorState extends SourcesState {
+  final String? message;
+  const SourcesErrorState({this.message});
+}
+
+class SourcesSuccessState extends SourcesState {
+  final List<Source> sources;
+  const SourcesSuccessState({required this.sources});
 }
