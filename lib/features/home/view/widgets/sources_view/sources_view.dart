@@ -19,9 +19,13 @@ class _SourcesViewState extends State<SourcesView> {
   late ArticlesViewModel articlesViewModel;
   void fetchData() async {
     await sourcesViewModel.loadSources(widget.category);
-    articlesViewModel.loadArticles(
-      (sourcesViewModel.state as SourcesSuccessState).sources[0],
-    );
+    if (sourcesViewModel.state is SourcesSuccessState) {
+      {
+        articlesViewModel.loadArticles(
+          (sourcesViewModel.state as SourcesSuccessState).sources[0],
+        );
+      }
+    }
   }
 
   @override
@@ -72,7 +76,7 @@ class _SourcesViewState extends State<SourcesView> {
                     ),
                   );
                 case SourceInitialState():
-                 return Container();
+                  return Container();
               }
             },
           ),

@@ -1,8 +1,9 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/core/api_services/api_services.dart';
 import 'package:news_app/core/models/news_category_model.dart';
 import 'package:news_app/core/models/source_response/source.dart';
-import 'package:news_app/core/models/source_response/source_response.dart';
+
 
 class SourcesViewModel extends ChangeNotifier {
   // observable
@@ -12,12 +13,17 @@ class SourcesViewModel extends ChangeNotifier {
   Future<void> loadSources(NewsCategoryModel category) async {
     state = SourcesLoadingState();
     notifyListeners();
-    SourceResponse sourceResponse = await ApiServices.getSources(category);
-    if (sourceResponse.status == "error") {
-      state = SourcesErrorState(message: sourceResponse.message);
-    } else {
-      state = SourcesSuccessState(sources: sourceResponse.sources ?? []);
-    }
+    Either<List<Source>, String> sourceResponse = await ApiServices.getSources(
+      category,
+    );
+    sourceResponse.fold(
+      (sources) {
+        state = SourcesSuccessState(sources: sources);
+      },
+      (message) {
+        state = SourcesErrorState(message: message);
+      },
+    );
     notifyListeners();
   }
 }

@@ -1,8 +1,12 @@
 // ignore_for_file: constant_identifier_names
 
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
+import 'package:news_app/core/models/articles_response/article.dart';
 import 'package:news_app/core/models/articles_response/articles_response.dart';
 import 'package:news_app/core/models/news_category_model.dart';
 import 'package:news_app/core/models/source_response/source.dart';
@@ -15,20 +19,41 @@ class ApiServices {
   static const String _APIKEY = "826640e0e5834997927b69ba60234b67";
   static const String _language = "en";
 
-  static Future<SourceResponse> getSources(NewsCategoryModel category) async {
+  static Future<Either<List<Source>, String>> getSources(
+    NewsCategoryModel category,
+  ) async {
     final Map<String, String> queryParameters = {
       "apiKey": _APIKEY,
       "category": category.id,
       "language": _language,
     };
     Uri url = Uri.http(_baseUrl, _sourcesEndPoint, queryParameters);
-    http.Response serveResponse = await http.get(url);
-    Map<String, dynamic> json = jsonDecode(serveResponse.body);
-    SourceResponse sourceResponse = SourceResponse.fromJson(json);
-    return sourceResponse;
+    try {
+      http.Response serveResponse = await http.get(url);
+      Map<String, dynamic> json = jsonDecode(serveResponse.body);
+      SourceResponse sourceResponse = SourceResponse.fromJson(json);
+      if (sourceResponse.status == "error") {
+        return right(sourceResponse.message ?? "");
+      } else {
+        return left(sourceResponse.sources ?? []);
+      }
+    } catch (exception) {
+      if (exception is SocketException) {
+        Right('No internet connection. Please check your network.');
+      }
+      if (exception is TimeoutException) {
+        Right('The connection timed out. Please try again.');
+      }
+      if (exception is FormatException) {
+        Right('Invalid response format from the server.');
+      }
+      return Right('An unexpected error occurred: $exception');
+    }
   }
 
-  static Future<ArticlesResponse> getArticles(Source source) async {
+  static Future<Either<List<Article>, String>> getArticles(
+    Source source,
+  ) async {
     final Map<String, String> queryParameters = {
       "apiKey": _APIKEY,
       "sources": source.id ?? "",
@@ -36,10 +61,27 @@ class ApiServices {
       "sortBy": "popularity",
     };
     Uri url = Uri.https(_baseUrl, _articlesEndPoint, queryParameters);
-    http.Response serveResponse = await http.get(url);
-    Map<String, dynamic> json = jsonDecode(serveResponse.body);
-    ArticlesResponse articlesResponse = ArticlesResponse.fromJson(json);
-    return articlesResponse;
+    try {
+      http.Response serveResponse = await http.get(url);
+      Map<String, dynamic> json = jsonDecode(serveResponse.body);
+      ArticlesResponse articlesResponse = ArticlesResponse.fromJson(json);
+      if (articlesResponse.status == "error") {
+        return right(articlesResponse.status ?? "Error");
+      } else {
+        return left(articlesResponse.articles ?? []);
+      }
+    } catch (exception) {
+      if (exception is SocketException) {
+        Right('No internet connection. Please check your network.');
+      }
+      if (exception is TimeoutException) {
+        Right('The connection timed out. Please try again.');
+      }
+      if (exception is FormatException) {
+        Right('Invalid response format from the server.');
+      }
+      return Right('An unexpected error occurred: $exception');
+    }
   }
 }
 
