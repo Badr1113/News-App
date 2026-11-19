@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/provider/home_provider.dart';
+import 'package:provider/provider.dart';
 
-import '../../../core/sources/colors_manager.dart';
+import '../../../../core/sources/colors_manager.dart';
 
 class HomeDrawer extends StatelessWidget {
   const HomeDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final drawerBackground = ColorsManager.black;
-
+    HomeProvider homeProvider = context.read<HomeProvider>();
     return Drawer(
       width: MediaQuery.sizeOf(context).width * 0.78,
-      backgroundColor: drawerBackground,
+      backgroundColor: ColorsManager.black,
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 16, 18, 18),
@@ -54,7 +54,10 @@ class HomeDrawer extends StatelessWidget {
                   'Go To Home',
                   style: TextStyle(color: ColorsManager.white, fontSize: 15),
                 ),
-                onTap: () => Navigator.of(context).pop(),
+                onTap: () {
+                  homeProvider.goToHome();
+                  Navigator.of(context).pop();
+                },
               ),
               const SizedBox(height: 12),
               Divider(color: ColorsManager.white),
