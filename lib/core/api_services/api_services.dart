@@ -51,14 +51,16 @@ class ApiServices {
     }
   }
 
-  static Future<Either<List<Article>, String>> getArticles(
-    Source source,
-  ) async {
+  static Future<Either<List<Article>, String>> getArticles({
+    Source? source,
+    String q = "",
+  }) async {
     final Map<String, String> queryParameters = {
       "apiKey": _APIKEY,
-      "sources": source.id ?? "",
+      "sources": source?.id ?? "",
       "language": _language,
       "sortBy": "popularity",
+      "q": q,
     };
     Uri url = Uri.https(_baseUrl, _articlesEndPoint, queryParameters);
     try {

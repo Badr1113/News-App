@@ -22,7 +22,7 @@ class _SourcesViewState extends State<SourcesView> {
     if (sourcesViewModel.state is SourcesSuccessState) {
       {
         articlesViewModel.loadArticles(
-          (sourcesViewModel.state as SourcesSuccessState).sources[0],
+          source: (sourcesViewModel.state as SourcesSuccessState).sources[0],
         );
       }
     }
@@ -62,7 +62,9 @@ class _SourcesViewState extends State<SourcesView> {
                     length: state.sources.length,
                     child: TabBar(
                       onTap: (tabIndex) {
-                        articlesViewModel.loadArticles(state.sources[tabIndex]);
+                        articlesViewModel.loadArticles(
+                          source: state.sources[tabIndex],
+                        );
                       },
                       labelStyle: TextStyle(color: ColorsManager.white),
                       indicatorColor: ColorsManager.white,

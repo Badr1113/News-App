@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/provider/home_provider.dart';
 import 'package:news_app/core/sources/colors_manager.dart';
+import 'package:news_app/core/sources/routes_manager.dart';
 import 'package:news_app/features/home/view/widgets/home_drawer.dart';
+import 'package:news_app/features/home/view/widgets/sources_view/sources_view.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -39,7 +41,14 @@ class _HomePageState extends State<HomePage> {
       ),
       foregroundColor: ColorsManager.white,
       centerTitle: true,
-      actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
+      actions: [
+        IconButton(
+          onPressed: () {
+            Navigator.pushNamed(context, RoutesManager.searchPage);
+          },
+          icon: Icon(Icons.search),
+        ),
+      ],
     );
   }
 }

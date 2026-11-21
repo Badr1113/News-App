@@ -9,11 +9,11 @@ class ArticlesViewModel extends ChangeNotifier {
 
   ArticleState state = ArticleInitialState();
 
-  void loadArticles(Source source) async {
+  void loadArticles({Source? source, String searchWord = ""}) async {
     state = ArticleLoadingState();
     notifyListeners();
     Either<List<Article>, String> articlesResponse =
-        await ApiServices.getArticles(source);
+        await ApiServices.getArticles(source: source, q: searchWord);
     articlesResponse.fold(
       (articles) {
         state = ArticleSuccessState(articles: articles);
